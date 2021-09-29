@@ -8,11 +8,13 @@ import Verify from './containers/verify';
 import Activate from './containers/activate';
 import ResetPassword from './containers/resetpassword';
 import ResetPasswordConfirm from './containers/resetpasswordconfirm';
-import EditUser from './containers/edit'
+import EditUser from './containers/edit';
+import DeleteUser from './containers/delete';
 import Layout from './hocs/layout';
 import UsersData from './containers/usersdata';
 import { Provider } from 'react-redux';
 import store from './store';
+
 
 
 
@@ -38,6 +40,8 @@ const App = () =>(
             <Route exact path='/users/data' component = {UsersData} />
 
             <Route exact path='/users/data/edit' component = {EditUser} />
+
+            <Route exact path='/users/data/delete' component = {DeleteUser} />
 
             <Route exact path='/activate/:uid/:token' component = {Activate} />
     
