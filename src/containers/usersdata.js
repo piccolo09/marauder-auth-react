@@ -6,9 +6,9 @@ export default class UsersData extends React.Component{
 
     state = {   //loading untile data is featch
         loading:true,
-        person:[],
+        person:[]
 
-    }
+    };
     async componentDidMount(){  //componenet has reander atleast onces 
         if (localStorage.getItem('access')){
         const url = `${process.env.REACT_APP_API_URl}/auth/users/`
@@ -25,6 +25,7 @@ export default class UsersData extends React.Component{
     }else{
       console.log('Invalid')
     }
+    console.log(typeof(person))
   }
 
     render() {
@@ -45,7 +46,7 @@ export default class UsersData extends React.Component{
                             </Table.Row>
                           </Table.Header>
                           <Table.Body>
-                            {this.state.person.map(data => (  
+                            {this.state.person.map(data => ( 
                             <Table.Row key={data.id}>
                                 <Table.Cell>{data.id}</Table.Cell>
                                 <Table.Cell>{data.username}</Table.Cell>
@@ -68,7 +69,7 @@ export default class UsersData extends React.Component{
                                     borderRadius: '10px',
                                     boxShadow:' 0 5px #666',
                                     border:'2px solid',
-                                  }}>delete</Link>
+                                  }}to='/users/data/delete'>delete</Link>
                               </Table.Row>
                             ))}
                           </Table.Body>
