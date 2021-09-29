@@ -16,6 +16,8 @@ import {
     ACTIVATION_FAIL,
     USER_EDIT_SUCCESS,
     USER_EDIT_FAIL, 
+    USER_DELETED_SUCCESS,
+    USER_DELETED_FAIL,
 
 }from '../actions/types';
 
@@ -81,6 +83,8 @@ export default function(state = initialState, action) {
         case ACTIVATION_SUCCESS:
         case ACTIVATION_FAIL:
         case USER_EDIT_FAIL:
+        case USER_DELETED_FAIL:
+        case USER_DELETED_SUCCESS:
             return{
                 ...state
             }

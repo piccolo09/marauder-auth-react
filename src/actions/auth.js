@@ -17,6 +17,8 @@ import {
     ACTIVATION_FAIL,
     USER_EDIT_SUCCESS,
     USER_EDIT_FAIL, 
+    USER_DELETED_SUCCESS,
+    USER_DELETED_FAIL,
 } from './types';
 
 export const checkAuthentication = () => async dispatch => {
@@ -201,34 +203,20 @@ export const reset_password_confirm = (uid,token,new_password,re_new_password) =
 };
 
 
-export const edit_user = (username=false,address=false) => async dispatch =>{
+export const edit_user = (id=false,username=false,address=false) => async dispatch =>{
     const config = {
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('access')}`, //auth token
+            'Accept': 'application/json'
         }
     };
-    const obj = {
-        // username: username,
-        // address: address
-      }
-    if(username !== false)
-    {
-        obj.username =username; 
-    }
-    if(address !== false){ 
-        obj.address =address; 
-    }
-    if(username === false && address === false)
-    {
-        console.log('Nothing to update')
-    }
-
-    console.log(obj)
-    const body = JSON.stringify({obj});    
+    // console.log(JSON.stringify(username,address))
+    const body = JSON.stringify(username,address);    
 
 
     try{
-        const res = await axios.patch(`${process.env.REACT_APP_API_URl}/auth/users/me/`, body, config);
+        const res = await axios.patch(`${process.env.REACT_APP_API_URl}/auth/users/${id}`, body, config);
 
         dispatch({
             type:USER_EDIT_SUCCESS
@@ -241,6 +229,29 @@ export const edit_user = (username=false,address=false) => async dispatch =>{
 
 };
 
+export const delete_user = (id) => async dispatch =>{
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('access')}`, //auth token
+            'Accept': 'application/json'
+        }
+    };
+    
+    try{
+        await axios.delete(`${process.env.REACT_APP_API_URl}/auth/users/${id}`,config);
+        // https://murmuring-chamber-51612.herokuapp.com/auth/users/me/
+        // https://murmuring-chamber-51612.herokuapp.com/auth/users/{id}/
+        dispatch({
+            type:USER_DELETED_SUCCESS
+        });
+    }catch(err){
+        dispatch({
+            type:USER_DELETED_FAIL
+        });
+    }
+
+};
 
 export const logout = () => dispatch => {
     dispatch({
