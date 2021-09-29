@@ -6,20 +6,37 @@ import { edit_user } from '../actions/auth';
 const EditUser = ({edit_user}) =>{
     const [reqestSent,setReqestSent] = useState(false);
     const [formData,setFormData]  = useState({
-        username : '',
-        address:''
+        username:null,
+        id:null,
+        address:null
     });
 
     // Structure
-    const {username,address} = formData;
+    const {id,username,address} = formData;
   
     const onChange = e => setFormData({...formData,[e.target.name]:e.target.value});
     
     const onSubmit = e => {
         // preventing browser from default action
         e.preventDefault();
-        
-        edit_user(username,address)
+
+
+        const obj ={
+
+        }
+
+        if(username !== null)
+        {
+            obj.username =username; 
+        }
+        if(address !== null){ 
+            obj.address =address; 
+        }
+        if(username === null && address === null)
+        {
+            return <Redirect to='/users/data' />
+        }
+        edit_user(id,obj)
         setReqestSent(true)
 
     };
@@ -33,7 +50,17 @@ const EditUser = ({edit_user}) =>{
     return (
         <div className='container mt-5'>
             <form onSubmit={e => onSubmit(e)}>
-                <h1>Edit User</h1>
+                <h1>Edit User<p>(Note:Empty Data will not be UPDATED)</p></h1>
+                <div className='form-group'>
+                    <input
+                        className='form-control'
+                        type='text'
+                        placeholder='Enter id'
+                        name='id'
+                        value={id}
+                        onChange={e => onChange(e)}
+                    />
+                </div>
                 <div className='form-group'>
                     <input
                         className='form-control'
@@ -54,8 +81,7 @@ const EditUser = ({edit_user}) =>{
                         onChange={e => onChange(e)}
                     />
                 </div>
-
-                <button className='btn btn-primary' type='submit'>Confirm Change</button>
+                <button className='btn btn-primary' type='submit' >Confirm Change</button>
             </form>
         </div>
     );
